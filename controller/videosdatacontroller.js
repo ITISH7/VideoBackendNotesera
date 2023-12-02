@@ -4,6 +4,7 @@ const coursedata = require('../model/coursedatamodel');
 
 const topicdata =require('../model/topicmodel');
 const { default: mongoose } = require('mongoose');
+
 //creating video data method 
 const createvideodata = async(req,res)=>{
     const collegename = req.body.collegename;
@@ -98,4 +99,22 @@ const getsubjectname= async(req,res)=>{
     const subjectname= await find_subject.subjectname;
     res.send(subjectname);
 }
-module.exports= {createvideodata,getvideodata,get_coursedetails_from_a_subject,getsubjectname,getyeardata,getsubjectdata,getalldata,getdepartmentdata};
+//delete a topic
+const deletetopic= async (req,res)=>{
+    const topicid = req.params.topicid;
+    const courseid= req.params.courseid;
+    console.log(topicid,courseid)
+    const deleted = await topicdata.deleteOne({_id:topicid});
+    const find_and_update_course = await coursedata.updateOne({_id:courseid},{$pull:{topics:topicid}});
+    console.log(find_and_update_course,topicid,courseid,deleted);
+    res.status(200).json(find_and_update_course);
+}
+//edit topic
+const edittopic= async(req,res)=>{
+    const id= req.params.id;
+    const topicname= req.body.topicname;
+    const topicuri = req.body.topicuri;
+    const update_topic= await topicdata.updateOne({_id:id},{$set:{topicname:topicname,topicuri:topicuri}});
+    res.json(update_topic);
+}
+module.exports= {createvideodata,getvideodata,get_coursedetails_from_a_subject,getsubjectname,getyeardata,getsubjectdata,getalldata,getdepartmentdata,deletetopic,edittopic};
