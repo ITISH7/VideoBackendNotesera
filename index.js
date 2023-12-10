@@ -15,12 +15,17 @@ const video = require('./routes/videodataRoute');
 const auth = require('./routes/authRoute');
 //configures
 app.use(bodyParser.json())
-app.use(cors())
+app.use(cors({
+    methods:['GET','POST','PUT','DELETE'],
+    credentials:true,
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
 app.use(cookieparser())
 app.use(bodyParser.urlencoded({ extended: false }));
 //routing
+app.use('/videoroute',video);
 app.use('/authlogin',auth);
-app.use('/video',video);
+
 // middleware error handlings
 app.use(notfound);
 app.use(errorhandler);

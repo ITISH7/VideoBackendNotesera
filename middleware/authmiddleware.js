@@ -4,12 +4,15 @@ const asynchandler = require("express-async-handler");
 
 const authMiddleware = asynchandler( async(req,res,next)=>{
     let token;
+    console.log(req.headers.authorization);
     if(req?.headers?.authorization?.startsWith('Bearer')){
         token=req?.headers?.authorization.split(" ")[1]
+        console.log(token)
         try{
             if(token){
+                
                 const decoded = jwt.verify(token,process.env.secret_key)
-                //console.log(decoded)
+                console.log(decoded)
                 const finduser = await User.findById(decoded?.id)
                 req.user = finduser
                 next();
@@ -23,7 +26,7 @@ const authMiddleware = asynchandler( async(req,res,next)=>{
     }
 })
 const isAdmin = asynchandler( async(req,res,next)=>{
-    //console.log(req.user);
+    console.log(req.user);
     const{email}= req.user
     const findadmin = await User.findOne({email:email})
     if(findadmin.role !=="admin"){
