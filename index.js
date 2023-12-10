@@ -23,7 +23,7 @@ app.use(cors({
 app.use(cookieparser())
 app.use(bodyParser.urlencoded({ extended: false }));
 //routing
-app.use('/videoroute',video);
+app.use('/video',video);
 app.use('/authlogin',auth);
 
 // middleware error handlings
