@@ -103,7 +103,9 @@ const deleteuser = asynchandler( async(req,res)=>{
         throw new Error("something went wrong");
     }
 })
-
+const checkvalidity =asynchandler(async(req,res)=>{
+    res.send('user is a varified admin ');
+})
 // updating a user
 const updateuser = asynchandler( async(req,res)=>{
     const {id} =req.user
@@ -161,4 +163,4 @@ const logout = asynchandler(async(req,res)=>{
     })
     res.sendStatus(204)
 })
-module.exports = {createUser,loginUser,getalluser,getuser,deleteuser,updateuser,handleRefreshToken,logout};
+module.exports = {createUser,loginUser,getalluser,getuser,deleteuser,updateuser,handleRefreshToken,logout,checkvalidity};
